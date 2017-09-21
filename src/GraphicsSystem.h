@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include <SDL.h>
+#include "includeSDL.h"
 #include "Event.h"
 #include "System.h"
 #include "Exception.h"
@@ -41,6 +41,19 @@ namespace gfx {
 		Uint8 alpha;
 	};
 
+    class Texture
+    {
+        SDL_Texture* m_texture;
+        
+    public:
+        Texture() : m_texture(nullptr)
+        {
+        }
+        
+        Texture(
+    };
+    
+    
 	//TODO write graphics system
 
 	class GraphicsSystem : public System
@@ -92,7 +105,7 @@ namespace gfx {
 		* @param h The height of the rectangle
 		* @param color The color of the rectangle
 		*/
-		void GraphicsSystem::renderDrawRect(int x, int y, int w, int h, Color color);
+		void renderDrawRect(int x, int y, int w, int h, Color color);
 
 
 		/* Draws an filled rectangle on the screen of the specified color
@@ -103,13 +116,15 @@ namespace gfx {
 		* @param h The height of the rectangle
 		* @param color The color of the rectangle
 		*/
-		void GraphicsSystem::renderFillRect(int x, int y, int w, int h, Color color);
+		void renderFillRect(int x, int y, int w, int h, Color color);
 
 		/* Sets the default color to render objects
 		*
 		* @param color The color to set
 		*/
 		void setDefaultRenderColor(Color color);
+        
+        
 
 	};
 

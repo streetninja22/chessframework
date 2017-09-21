@@ -1,8 +1,8 @@
 #pragma once
 #include <string>
-#include <SDL.h>
+#include "includeSDL.h"
 #include <iostream>
-#include <SDL_image.h>
+#include "includeSDL.h"
 
 
 namespace SDLUtil
@@ -52,21 +52,6 @@ namespace SDLUtil
 	void logSDLError(std::ostream &outstream, const std::string &msg)
 	{
 		outstream << msg << " error: " << SDL_GetError() << "\n";
-	}
-
-
-	/**
-	* Loads a texture to the supplied renderer
-	*
-	* @param file The chosen image file
-	* @param renderer The renderer to load the file to
-	*/
-	SDL_Texture* loadTexture(const std::string &file, SDL_Renderer *renderer)
-	{
-		SDL_Texture* texture = IMG_LoadTexture(renderer, file.c_str());
-		if (texture == nullptr)
-			logSDLError(std::cout, "IMG_LoadTexture");
-		return texture;
 	}
 
 	/**

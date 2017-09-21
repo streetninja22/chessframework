@@ -1,11 +1,12 @@
 #pragma once
-#include <SDL.h>
+#include "includeSDL.h"
 
 
 namespace inpt
 {
 	enum KeyCode
 	{
+        KEYCODE_DEFAULT,
 		KEYCODE_0,
 		KEYCODE_1,
 		KEYCODE_2,
@@ -165,6 +166,8 @@ namespace inpt
 		case (SDL_SCANCODE_Z):
 			return KeyCode::KEYCODE_Z;
 		}
+        
+        return KEYCODE_DEFAULT;
 	}
 	
 }

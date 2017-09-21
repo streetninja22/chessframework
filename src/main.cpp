@@ -1,5 +1,5 @@
 #include <iostream>
-#include <SDL.h>
+#include "includeSDL.h"
 #include "Event.h"
 #include "InputSystem.h"
 #include "GraphicsSystem.h"

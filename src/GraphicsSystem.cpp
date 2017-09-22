@@ -4,6 +4,35 @@
 
 namespace gfx
 {
+
+	SDL_Rect* SDLRectFromRect(SDL_Rect* r1, Rect* r2)
+	{
+		if (r1 == NULL || r2 == NULL)
+			return NULL;
+
+		r1->x = r2->x;
+		r1->y = r2->y;
+		r1->w = r2->w;
+		r1->h = r2->h;
+
+		return r1;
+	}
+
+	SDL_Rect* SDLRectFromRect(Rect* r2)
+	{
+		SDL_Rect* r1 = new SDL_Rect();
+		if (r1 == NULL || r2 == NULL)
+			return NULL;
+
+		r1->x = r2->x;
+		r1->y = r2->y;
+		r1->w = r2->w;
+		r1->h = r2->h;
+
+		return r1;
+	}
+
+
 	/* In initializing the system, also creates a window and a render for window
 	*
 	* @param bus The EventBus which the system will read from
@@ -71,6 +100,7 @@ namespace gfx
 		rect->h = h;
 
 		SDL_RenderDrawRect(m_renderer, rect);
+		delete rect;
 	}
 
 
@@ -92,6 +122,7 @@ namespace gfx
 		rect->h = h;
 
 		SDL_RenderFillRect(m_renderer, rect);
+		delete rect;
 	}
 
 
@@ -114,6 +145,7 @@ namespace gfx
 
 		SDL_RenderDrawRect(m_renderer, rect);
 		setRenderDrawColor(m_defaultRenderColor);
+		delete rect;
 	}
 
 	void GraphicsSystem::renderFillRect(int x, int y, int w, int h, Color color)
@@ -128,8 +160,30 @@ namespace gfx
 
 		SDL_RenderFillRect(m_renderer, rect);
 		setRenderDrawColor(m_defaultRenderColor);
+		delete rect;
 	}
 
 
+	Texture GraphicsSystem::loadImage(std::string file)
+	{
+		Texture returnTexture;
+		SDL_Surface* surface = IMG_Load(file.c_str());
+		SDL_Texture* texture = SDL_CreateTextureFromSurface(m_renderer, surface);
+		returnTexture.setTexture(texture);
+
+		SDL_FreeSurface(surface);
+		return returnTexture;
+	}
+
+
+	void GraphicsSystem::renderTexture(Texture texture, Rect* source, Rect* dest)
+	{
+		SDL_Rect* sourceRect = SDLRectFromRect(source);
+		SDL_Rect* destRect = SDLRectFromRect(dest);
+
+		SDL_RenderCopy(m_renderer, texture.getTexture(), sourceRect, destRect);
+		delete sourceRect;
+		delete destRect;
+	}
 
 }

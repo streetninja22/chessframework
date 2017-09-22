@@ -3,6 +3,7 @@
 #include "Event.h"
 #include "InputSystem.h"
 #include "GraphicsSystem.h"
+#include "assets.h"
 
 void printEvent(Event* event)
 {
@@ -25,13 +26,16 @@ int main(int argc, char* argv[])
 
 	GraphicsSystem* graphics = new GraphicsSystem(bus, "TestWindow", 512, 512, 512, 512);
 
+	std::string file = file::getGfxFile("cryofreeze.jpg").string();
+
+	std::cout << file << "\n";
+
+	gfx::Texture texture = graphics->loadImage("C:\\Users\\trist\\OneDrive\\Documents\\Visual Studio 2015\\Projects\\Chess\\Chess\\gfx\\cryofreeze.jpg\\");
+
 	while (true)
 	{
-		graphics->setDefaultRenderColor(Color{ 128, 0, 128, 255 });
-		graphics->renderDrawRect(10, 10, 256, 128);
-		graphics->renderFillRect(180, 50, 100, 130);
+		graphics->renderTexture(texture, NULL, NULL);
 		
-		graphics->setDefaultRenderColor(Color{ 255, 255, 255, 255 });
 		graphics->update();
 	}
 

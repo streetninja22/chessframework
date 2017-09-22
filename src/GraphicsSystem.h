@@ -5,11 +5,13 @@
 #include "Event.h"
 #include "System.h"
 #include "Exception.h"
+#include <experimental/filesystem>
+#include <SDL_image.h>
 
+namespace fs = std::experimental::filesystem;
 
 namespace gfx {
 	//TODO exceptions
-
 
 	class GraphicsException : Exception
 	{
@@ -41,16 +43,48 @@ namespace gfx {
 		Uint8 alpha;
 	};
 
+	struct Rect
+	{
+		int x;
+		int y;
+		int h;
+		int w;
+
+	};
+
+	SDL_Rect* SDLRectFromRect(SDL_Rect* r1, Rect* r2);
+
+	SDL_Rect* SDLRectFromRect(Rect* r2);
+
     class Texture
     {
         SDL_Texture* m_texture;
-        
-    public:
+
+
+	public:
+		SDL_Texture* getTexture()
+		{
+			return m_texture;
+		}
+		
         Texture() : m_texture(nullptr)
         {
         }
+
+		Texture(SDL_Texture* texture) : m_texture(texture)
+		{
+		}
         
-        Texture(
+		~Texture()
+		{
+			SDL_DestroyTexture(m_texture);
+		}
+
+		void setTexture(SDL_Texture* texture)
+		{
+			m_texture = texture;
+		}
+
     };
     
     
@@ -73,8 +107,8 @@ namespace gfx {
 
 		void update()
 		{
-			SDL_RenderPresent(m_renderer);
 			SDL_RenderClear(m_renderer);
+			SDL_RenderPresent(m_renderer);
 		}
 
 
@@ -125,7 +159,22 @@ namespace gfx {
 		void setDefaultRenderColor(Color color);
         
         
+		/* Loads an image into a Texture object
+		*
+		* @param file The filepath of the image
+		*/
+		Texture loadImage(std::string filepath);
 
+
+		/* Renders the supplied texture at the given position and size
+		*
+		* @param texture The texture to render
+		* @param w The width of the texture once rendered
+		* @param h The heigth of the texture once rendererd
+		* @param x The X position of the texture once rendered
+		* @param y The Y position of the texture once rendered
+		*/
+		void renderTexture(Texture texture, Rect* source, Rect* dest);
 	};
 
 }

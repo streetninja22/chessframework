@@ -5,6 +5,7 @@
 #include "Event.h"
 #include "System.h"
 #include "Exception.h"
+#include "graphicsenum.h"
 #include <experimental/filesystem>
 #include <SDL_image.h>
 
@@ -13,6 +14,9 @@ namespace fs = std::experimental::filesystem;
 namespace gfx {
 	//TODO exceptions
 
+	/* Basic graphics exception
+	*
+	*/
 	class GraphicsException : Exception
 	{
 	public:
@@ -23,6 +27,7 @@ namespace gfx {
 
 	};
 
+	//A graphics exception which is thrown when an error involving rendering occurs
 	class RenderException : GraphicsException
 	{
 	public:
@@ -74,24 +79,103 @@ namespace gfx {
 		Texture(SDL_Texture* texture) : m_texture(texture)
 		{
 		}
-        
-		~Texture()
-		{
-			SDL_DestroyTexture(m_texture);
-		}
 
 		void setTexture(SDL_Texture* texture)
 		{
 			m_texture = texture;
 		}
 
+		void freeTexture()
+		{
+			SDL_DestroyTexture(m_texture);
+		}
+
     };
+
+
+
+	//A basic Graphics System event
+	class GraphicsEvent : public Event
+	{
+
+	public:
+		GraphicsEvent()
+		{
+
+		}
+
+		virtual EventType getEventType() { return EventType::GRAPHICS; }
+		virtual GraphicsEventType getGraphicsEventType() { return GraphicsEventType::DEFAULT; }
+
+	};
+
+	//An event which calls for the GraphicsSystem to render an object
+	class RenderEvent : public GraphicsEvent
+	{
+		Rect* m_dstrect;
+
+	public:
+		RenderEvent()
+		{
+
+		}
+
+		/* Creates a RenderImageEvent
+		*
+		* @param texture the Texture to render
+		* @param srcRect The source rectangle which determines what part of the texture will be rendered
+		* @param dstRect The destination rectangle, which determins where on the screen the texture will be rendered
+		*/
+		RenderEvent(Rect* dstrect) : m_dstrect(dstrect)
+		{
+		}
+
+		~RenderEvent()
+		{
+			delete m_dstrect;
+		}
+
+		Rect* getDstRect() { return m_dstrect; }
+	};
+
+	//An event which calls for the Graphics System to render an image
+	class RenderImageEvent : public RenderEvent
+	{
+		Texture m_texture;
+		Rect* m_srcRect;
+
+	public:
+		RenderImageEvent()
+		{
+
+		}
+
+		/* Creates a RenderImageEvent
+		*
+		* @param texture the Texture to render
+		* @param srcRect The source rectangle which determines what part of the texture will be rendered
+		* @param dstRect The destination rectangle, which determins where on the screen the texture will be rendered
+		*/
+		RenderImageEvent(Texture texture, Rect* srcRect, Rect* dstRect) : m_texture(texture), m_srcRect(srcRect), RenderEvent(dstRect)
+		{
+		}
+
+		~RenderImageEvent()
+		{
+			delete m_srcRect;
+		}
+
+		Rect* getSrcRect() { return m_srcRect; }
+		Texture getTexture() { return m_texture; }
+		virtual GraphicsEventType getGraphicsEventType() override { return GraphicsEventType::RENDERIMAGE; }
+	};
     
     
 	//TODO write graphics system
 
 	class GraphicsSystem : public System
 	{
+	public:
 		SDL_Window* m_window;
 		SDL_Renderer* m_renderer;
 		Color m_defaultRenderColor;
@@ -105,11 +189,12 @@ namespace gfx {
 
 		~GraphicsSystem();
 
-		void update()
-		{
-			SDL_RenderClear(m_renderer);
-			SDL_RenderPresent(m_renderer);
-		}
+		void eventFired(Event* evnt);
+
+		/* Causes a graphics update
+		*
+		*/
+		void update();
 
 
 		/* Draws an unfilled rectangle on the screen
@@ -163,7 +248,7 @@ namespace gfx {
 		*
 		* @param file The filepath of the image
 		*/
-		Texture loadImage(std::string filepath);
+		Texture loadTexture(std::string filepath);
 
 
 		/* Renders the supplied texture at the given position and size

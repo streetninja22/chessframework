@@ -53,7 +53,7 @@ namespace gfx
 
 		}
 
-		m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED);
+		m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_PRESENTVSYNC & SDL_RENDERER_ACCELERATED);
 		if (m_renderer == nullptr)
 		{
 			throw new RenderException(2, "Failed to initialize SDL_Renderer");
@@ -63,6 +63,34 @@ namespace gfx
 		}
 
 	}
+
+
+	void GraphicsSystem::eventFired(Event* evnt)
+	{
+		if (evnt->getEventType() == evnt::EventType::GRAPHICS)
+		{
+			GraphicsEvent* graphicsEvent = dynamic_cast<GraphicsEvent*>(evnt);
+
+			switch (graphicsEvent->getGraphicsEventType())
+			{
+			case GraphicsEventType::RENDERIMAGE:
+				RenderImageEvent* graphicsEvent = dynamic_cast<RenderImageEvent*>(evnt);
+
+				renderTexture(graphicsEvent->getTexture(), graphicsEvent->getSrcRect(), graphicsEvent->getDstRect());
+				delete evnt;
+				break;
+			}
+
+		}
+	}
+
+
+	void GraphicsSystem::update()
+	{
+		SDL_RenderPresent(m_renderer);
+		SDL_RenderClear(m_renderer);
+	}
+
 
 	GraphicsSystem::~GraphicsSystem()
 	{
@@ -164,14 +192,12 @@ namespace gfx
 	}
 
 
-	Texture GraphicsSystem::loadImage(std::string file)
+	Texture GraphicsSystem::loadTexture(std::string file)
 	{
 		Texture returnTexture;
-		SDL_Surface* surface = IMG_Load(file.c_str());
-		SDL_Texture* texture = SDL_CreateTextureFromSurface(m_renderer, surface);
+		SDL_Texture* texture = IMG_LoadTexture(m_renderer, file.c_str());
 		returnTexture.setTexture(texture);
 
-		SDL_FreeSurface(surface);
 		return returnTexture;
 	}
 

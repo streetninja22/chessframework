@@ -7,8 +7,17 @@
 namespace evnt
 {
 
+	enum class EventType
+	{
+		DEFAULT,
+		GRAPHICS,
+		INPUT,
+	};
+
 	class Event
 	{
+
+		EventType m_type;
 
 	public:
 		Event()
@@ -20,6 +29,8 @@ namespace evnt
 		{
 
 		}
+
+		virtual EventType getEventType() { return m_type; }
 	};
 
 	class EventBus
@@ -29,7 +40,6 @@ namespace evnt
 
 	public:
 		EventBus() {}
-		~EventBus() {}
 
 		/* adds a listener function to the event bus
 		* param listener The listener to add
@@ -55,9 +65,23 @@ namespace evnt
 			{
 				for (auto& index : m_eventListeners)
 					(index)(m_eventQueue.front());
+				//delete m_eventQueue.front(); //this is causing errors, might as well have a dangling pointer for now while testing
+				m_eventQueue.pop();
+			}
+		}
+
+		void clearEventQueue()
+		{
+			for (int index = 0; index < m_eventQueue.size(); ++index)
+			{
 				delete m_eventQueue.front();
 				m_eventQueue.pop();
 			}
+		}
+
+		~EventBus()
+		{
+			clearEventQueue();
 		}
 
 	};

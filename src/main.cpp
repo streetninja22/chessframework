@@ -9,10 +9,11 @@
 
 int main(int argc, char* argv[])
 {
-	Pawn piece = Pawn();
 	Board board = Board();
 
-	std::cout << piece.isMoveLegal(board, 0, 0, 0, 1) << " " << piece.isMoveLegal(board, 0, 0, 1, 0) << " " << piece.isMoveLegal(board, 0, 0, 1, 1) << "\n";
+	//board.setPiece(0, 5, Pawn(COLOR_WHITE));
+
+	std::cout << board.lineOfSight(0, 0, 0, 5) << "\n";
 
 	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 

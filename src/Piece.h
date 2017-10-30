@@ -13,11 +13,12 @@ enum class PieceType
 	QUEEN
 };
 
-enum class PieceColor
+enum PieceColor
 {
-	NONE,
-	WHITE,
-	BLACK,
+	COLOR_NONE,
+	COLOR_WHITE,
+	COLOR_BLACK,
+	COLOR_MAX
 };
 
 
@@ -33,7 +34,7 @@ protected:
 
 	}
 public:
-	Piece() : m_type(PieceType::NONE), m_color(PieceColor::NONE)
+	Piece() : m_type(PieceType::NONE), m_color(PieceColor::COLOR_NONE)
 	{
 	}
 

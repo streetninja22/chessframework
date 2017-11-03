@@ -6,22 +6,26 @@ bool Pawn::isMoveLegal(const Board& board, int xOrigin, int yOrigin, int xNew, i
 	int deltaX = xNew - xOrigin;
 	int deltaY = yNew - yOrigin;
 
-	switch (deltaX)
+	if (deltaX == 1 || deltaX == -1)
 	{
-	case 1:
-	case -1:
 		if (deltaY == 1)
 		{
 			if (board.isLivingPieceAt(xNew, yNew))
 				return true;
 		}
-		break;
-
-	case 0:
-		if (deltaY == 1 || (deltaY == 2 && !m_hasMoved))
+	}
+	else if(deltaX == 0)
+	{
+		if (deltaY == 1)
+		{
 			if (!(board.isLivingPieceAt(xNew, yNew)))
+			{
 				return true;
-		break;
+			}
+		}
+		else if (deltaY == 2 && m_hasMoved == false)
+			if (board.isLivingPieceAt(xOrigin, yOrigin + 1))
+				return true;
 	}
 	return false;
 }
@@ -34,7 +38,8 @@ bool Rook::isMoveLegal(const Board& board, int xOrigin, int yOrigin, int xNew, i
 
 	//this basically acts as an XOR operator, so if you're moving in one axis you can't move on the other
 	if (!deltaX != !deltaY)
-		return true;
+		if (board.lineOfSight(xOrigin, yOrigin, xNew, yNew))
+			return true;
 	return false;
 }
 
@@ -56,7 +61,31 @@ bool Bishop::isMoveLegal(const Board& board, int xOrigin, int yOrigin, int xNew,
 	int deltaY = yNew - yOrigin;
 
 	if (deltaX == deltaY)
-		return true;
+		if (board.lineOfSight(xOrigin, yOrigin, xNew, yNew))
+			return true;
 	return false;
 }
 
+bool King::isMoveLegal(const Board& board, int xOrigin, int yOrigin, int xNew, int yNew)
+{
+	if (abs(xNew - xOrigin) <= 1 && abs(yNew - yOrigin) <= 1)
+		return true;
+
+}
+
+bool Queen::isMoveLegal(const Board& board, int xOrigin, int yOrigin, int xNew, int yNew)
+{
+	int deltaX = xNew - xOrigin;
+	int deltaY = yNew - yOrigin;
+
+	if (deltaX == deltaY)
+	{
+		if (board.lineOfSight(xOrigin, yOrigin, xNew, yNew))
+			return true;
+	}
+	if (!deltaX != !deltaY)
+	{
+		if (board.lineOfSight(xOrigin, yOrigin, xNew, yNew))
+			return true;
+	}
+}

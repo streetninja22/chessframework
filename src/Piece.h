@@ -2,98 +2,118 @@
 
 class Board;
 
-enum class PieceType
+namespace chess
 {
-	NONE,
-	PAWN,
-	ROOK,
-	KNIGHT,
-	BISHOP,
-	KING,
-	QUEEN
-};
 
-enum PieceColor
-{
-	COLOR_NONE,
-	COLOR_WHITE,
-	COLOR_BLACK,
-	COLOR_MAX
-};
-
-
-class Piece
-{
-protected:
-	PieceType m_type;
-	PieceColor m_color;
-
-
-	Piece(PieceType type, PieceColor color) : m_type(type), m_color(color)
+	enum class PieceType
 	{
+		NONE,
+		PAWN,
+		ROOK,
+		KNIGHT,
+		BISHOP,
+		KING,
+		QUEEN
+	};
 
-	}
-public:
-	Piece() : m_type(PieceType::NONE), m_color(PieceColor::COLOR_NONE)
+	enum PieceColor
 	{
-	}
+		COLOR_NONE,
+		COLOR_WHITE,
+		COLOR_BLACK,
+		COLOR_MAX
+	};
 
-	PieceType getType() const { return m_type; }
 
-	PieceColor getColor() const { return m_color; }
-
-	virtual bool isMoveLegal(const Board& board, int xOrigin, int yOrigin, int xNew, int yNew)
+	class Piece
 	{
-		return false;
-	}
+	protected:
+		PieceType m_type;
+		PieceColor m_color;
 
-};
+
+		Piece(PieceType type, PieceColor color) : m_type(type), m_color(color)
+		{
+
+		}
+	public:
+		Piece() : m_type(PieceType::NONE), m_color(PieceColor::COLOR_NONE)
+		{
+		}
+
+		PieceType getType() const { return m_type; }
+
+		PieceColor getColor() const { return m_color; }
+
+		virtual bool isMoveLegal(const Board& board, int xOrigin, int yOrigin, int xNew, int yNew)
+		{
+			return false;
+		}
+
+	};
 
 
-class Pawn : public Piece
-{
-	bool m_hasMoved;
-
-public:
-	Pawn(PieceColor color) : m_hasMoved(false), Piece(PieceType::PAWN, color)
+	class Pawn : public Piece
 	{
-	}
+		bool m_hasMoved;
 
-	bool isMoveLegal(const Board& board, int xOrigin, int yOrigin, int xNew, int yNew) override;
+	public:
+		Pawn(PieceColor color) : m_hasMoved(false), Piece(PieceType::PAWN, color)
+		{
+		}
 
-};
+		bool isMoveLegal(const Board& board, int xOrigin, int yOrigin, int xNew, int yNew) override;
 
-class Rook : public Piece
-{
-public:
-	Rook(PieceColor color) : Piece(PieceType::ROOK, color)
+	};
+
+	class Rook : public Piece
 	{
-	}
+	public:
+		Rook(PieceColor color) : Piece(PieceType::ROOK, color)
+		{
+		}
 
-	bool isMoveLegal(const Board& board, int xOrigin, int yOrigin, int xNew, int yNew) override;
-};
+		bool isMoveLegal(const Board& board, int xOrigin, int yOrigin, int xNew, int yNew) override;
+	};
 
-class Knight : public Piece
-{
-public:
-	Knight(PieceColor color) : Piece(PieceType::KNIGHT, color)
+	class Knight : public Piece
 	{
-	}
+	public:
+		Knight(PieceColor color) : Piece(PieceType::KNIGHT, color)
+		{
+		}
 
-	bool isMoveLegal(const Board& board, int xOrigin, int yOrigin, int xNew, int yNew) override;
-};
+		bool isMoveLegal(const Board& board, int xOrigin, int yOrigin, int xNew, int yNew) override;
+	};
 
-class Bishop : public Piece
-{
-public:
-	Bishop(PieceColor color) : Piece(PieceType::BISHOP, color)
+	class Bishop : public Piece
 	{
-	}
+	public:
+		Bishop(PieceColor color) : Piece(PieceType::BISHOP, color)
+		{
+		}
 
-	bool isMoveLegal(const Board& board, int xOrigin, int yOrigin, int xNew, int yNew) override;
-};
+		bool isMoveLegal(const Board& board, int xOrigin, int yOrigin, int xNew, int yNew) override;
+	};
 
-class King : public Piece
-{
+	class King : public Piece
+	{
+	public:
+		King(PieceColor color) : Piece(PieceType::KING, color)
+		{
+		}
 
-};
+		bool isMoveLegal(const Board& board, int xOrigin, int yOrigin, int xNew, int yNew) override;
+	};
+
+	class Queen : public Piece
+	{
+	public:
+		Queen(PieceColor color) : Piece(PieceType::KING, color)
+		{
+		}
+
+		bool isMoveLegal(const Board& board, int xOrigin, int yOrigin, int xNew, int yNew) override;
+	};
+
+}

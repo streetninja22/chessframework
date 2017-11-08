@@ -1,4 +1,5 @@
 #pragma once
+#include "Team.h"
 
 class Board;
 
@@ -16,34 +17,26 @@ namespace chess
 		QUEEN
 	};
 
-	enum PieceColor
-	{
-		COLOR_NONE,
-		COLOR_WHITE,
-		COLOR_BLACK,
-		COLOR_MAX
-	};
-
 
 	class Piece
 	{
 	protected:
 		PieceType m_type;
-		PieceColor m_color;
+		Team* m_team;
 
 
-		Piece(PieceType type, PieceColor color) : m_type(type), m_color(color)
+		Piece(PieceType type, Team* team) : m_type(type), m_team(team)
 		{
 
 		}
 	public:
-		Piece() : m_type(PieceType::NONE), m_color(PieceColor::COLOR_NONE)
+		Piece() : m_type(PieceType::NONE), m_team(nullptr)
 		{
 		}
 
 		PieceType getType() const { return m_type; }
 
-		PieceColor getColor() const { return m_color; }
+		const Team* getTeam() const { return m_team; }
 
 		virtual bool isMoveLegal(const Board& board, int xOrigin, int yOrigin, int xNew, int yNew)
 		{
@@ -58,7 +51,7 @@ namespace chess
 		bool m_hasMoved;
 
 	public:
-		Pawn(PieceColor color) : m_hasMoved(false), Piece(PieceType::PAWN, color)
+		Pawn(Team* team) : m_hasMoved(false), Piece(PieceType::PAWN, team)
 		{
 		}
 
@@ -69,7 +62,7 @@ namespace chess
 	class Rook : public Piece
 	{
 	public:
-		Rook(PieceColor color) : Piece(PieceType::ROOK, color)
+		Rook(Team* team) : Piece(PieceType::ROOK, team)
 		{
 		}
 
@@ -79,7 +72,7 @@ namespace chess
 	class Knight : public Piece
 	{
 	public:
-		Knight(PieceColor color) : Piece(PieceType::KNIGHT, color)
+		Knight(Team* team) : Piece(PieceType::KNIGHT, team)
 		{
 		}
 
@@ -89,7 +82,7 @@ namespace chess
 	class Bishop : public Piece
 	{
 	public:
-		Bishop(PieceColor color) : Piece(PieceType::BISHOP, color)
+		Bishop(Team* team) : Piece(PieceType::BISHOP, team)
 		{
 		}
 
@@ -99,7 +92,7 @@ namespace chess
 	class King : public Piece
 	{
 	public:
-		King(PieceColor color) : Piece(PieceType::KING, color)
+		King(Team* team) : Piece(PieceType::KING, team)
 		{
 		}
 
@@ -109,7 +102,7 @@ namespace chess
 	class Queen : public Piece
 	{
 	public:
-		Queen(PieceColor color) : Piece(PieceType::KING, color)
+		Queen(Team* team) : Piece(PieceType::KING, team)
 		{
 		}
 

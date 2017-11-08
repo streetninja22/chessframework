@@ -59,6 +59,15 @@ namespace chess
 				getPiece(x, y) = piece;
 		}
 
+		/* Moves the data of a piece from the origin to the new position
+		*
+		* @param xOrigin The original X position
+		* @param yOrigin The original Y position
+		* @param xNew The new X position
+		* @param yNew The new Y position
+		*/
+		void movePiece(int xOrigin, int yOrigin, int xNew, int yNew);
+
 		/* Returns whether a living piece is at the given position
 		*
 		* @param x The X position to check

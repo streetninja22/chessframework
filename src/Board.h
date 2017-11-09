@@ -76,7 +76,7 @@ namespace chess
 		bool isLivingPieceAt(int x, int y) const
 		{
 			if (x < m_xSize && y < m_ySize)
-				return getPiece(x, y).getColor();
+                return getPiece(x, y).getTeam() != nullptr ? true : false;
 		}
 
 		/* Returns the color of the piece at the given positon
@@ -84,10 +84,10 @@ namespace chess
 		* @param x The X position
 		* @param y The Y position
 		*/
-		PieceColor getColorAt(int x, int y) const
+		const Team* getTeamAt(int x, int y) const
 		{
 			if (x < m_xSize && y < m_ySize)
-				return getPiece(x, y).getColor();
+				return getPiece(x, y).getTeam();
 		}
 
 		/* Checks if there is line of sight (IE no pieces) between the two positions. Only works for straight lines

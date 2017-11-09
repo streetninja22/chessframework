@@ -51,7 +51,7 @@ namespace chess
 		bool m_hasMoved;
 
 	public:
-		Pawn(Team* team) : m_hasMoved(false), Piece(PieceType::PAWN, team)
+		Pawn(Team* team) : Piece(PieceType::PAWN, team), m_hasMoved(false)
 		{
 		}
 

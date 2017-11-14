@@ -59,28 +59,28 @@ namespace inpt
 		{
 
 		}
-        
+
         /* Returns the X coordinate of the mouse
         */
 		int getX()
 		{
 			return m_posX;
 		}
-        
+
         /* Returns the Y coordinate of the mouse
          */
 		int getY()
 		{
 			return m_posY;
 		}
-        
+
         /* Returns the type of mouse input (left click, right click, mmb, etc)
          */
 		MouseEventType getType()
 		{
 			return m_type;
 		}
-        
+
         /* Sets the type of mouse input
          * @param type The type
          */

@@ -71,7 +71,7 @@ namespace gfx {
 		{
 			return m_texture;
 		}
-		
+
         Texture() : m_texture(nullptr)
         {
         }
@@ -169,8 +169,8 @@ namespace gfx {
 		Texture getTexture() { return m_texture; }
 		virtual GraphicsEventType getGraphicsEventType() override { return GraphicsEventType::RENDERIMAGE; }
 	};
-    
-    
+
+
 	//TODO write graphics system
 
 	class GraphicsSystem : public System
@@ -242,8 +242,8 @@ namespace gfx {
 		* @param color The color to set
 		*/
 		void setDefaultRenderColor(Color color);
-        
-        
+
+
 		/* Loads an image into a Texture object
 		*
 		* @param file The filepath of the image

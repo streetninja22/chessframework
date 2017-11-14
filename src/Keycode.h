@@ -1,4 +1,5 @@
 #pragma once
+
 #include "includeSDL.h"
 
 
@@ -166,8 +167,8 @@ namespace inpt
 		case (SDL_SCANCODE_Z):
 			return KeyCode::KEYCODE_Z;
 		}
-        
+
         return KEYCODE_DEFAULT;
 	}
-	
+
 }

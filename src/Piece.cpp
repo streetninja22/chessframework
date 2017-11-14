@@ -1,11 +1,13 @@
-#include "Piece.h"
 #include "Board.h"
+#include "PieceTypes.h"
+#include <cstdlib> //needed for abs() on some compilers
+
 
 
 namespace chess
 {
 
-	bool Pawn::isMoveLegal(const Board& board, int xOrigin, int yOrigin, int xNew, int yNew)
+    bool Pawn::isMoveLegal(const Board& board, int xOrigin, int yOrigin, int xNew, int yNew)
 	{
 		int deltaX = xNew - xOrigin;
 		int deltaY = yNew - yOrigin;
@@ -52,9 +54,9 @@ namespace chess
 		int deltaX = xNew - xOrigin;
 		int deltaY = yNew - yOrigin;
 
-		if (abs(deltaX) == 2 && abs(deltaY) == 1)
+        if (std::abs(deltaX) == 2 && std::abs(deltaY) == 1)
 			return true;
-		else if (abs(deltaX) == 1 && abs(deltaY) == 2)
+		else if (std::abs(deltaX) == 1 && std::abs(deltaY) == 2)
 			return true;
 		return false;
 	}
@@ -72,7 +74,7 @@ namespace chess
 
 	bool King::isMoveLegal(const Board& board, int xOrigin, int yOrigin, int xNew, int yNew)
 	{
-		if (abs(xNew - xOrigin) <= 1 && abs(yNew - yOrigin) <= 1)
+		if (std::abs(xNew - xOrigin) <= 1 && std::abs(yNew - yOrigin) <= 1)
 			return true;
 
 	}

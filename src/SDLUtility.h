@@ -2,7 +2,6 @@
 #include <string>
 #include "includeSDL.h"
 #include <iostream>
-#include "includeSDL.h"
 
 
 namespace SDLUtil

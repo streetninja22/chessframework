@@ -6,7 +6,6 @@
 
 namespace evnt
 {
-
 	enum class EventType
 	{
 		DEFAULT,
@@ -32,11 +31,13 @@ namespace evnt
 
 		virtual EventType getEventType() { return m_type; }
 	};
+    
+    typedef std::function<void(Event*)> EventListener;
 
 	class EventBus
 	{
 		std::queue<Event*> m_eventQueue;
-		std::vector <std::function<void(Event*)>> m_eventListeners;
+        std::vector<EventListener> m_eventListeners;
 
 	public:
 		EventBus() {}

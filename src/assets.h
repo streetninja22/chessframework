@@ -1,10 +1,10 @@
 #pragma once
 
-#include <experimental/filesystem>
+#include <boost/filesystem.hpp>
 #include <string>
 
 
-namespace fs = std::experimental::filesystem;
+namespace fs = boost::filesystem;
 
 namespace file
 {
@@ -12,8 +12,7 @@ namespace file
 	*/
 	fs::path getMainDirectory()
 	{
-		//looks crazy, I know, but it's necessary because the compiler whines if we don't use a pointer for parent_path()
-		return *(&fs::current_path().parent_path()) /= "Chess";
+		return fs::current_path().parent_path() /= "Chess";
 	}
 
 	/* Gets the path relative to the main game directory
@@ -22,7 +21,7 @@ namespace file
 	*/
 	fs::path getMainDirectoryFile(fs::path subpath)
 	{
-		fs::path path = (*(&fs::current_path().parent_path()) /= "Chess") /= subpath;
+		fs::path path = (fs::current_path().parent_path() /= "Chess") /= subpath;
 
 		return path;
 	}
@@ -37,7 +36,7 @@ namespace file
 	std::string getMainDirectoryStr()
 	{
 		//looks crazy, I know, but it's necessary because the compiler whines if we don't use a pointer for parent_path()
-		fs::path path = *(&fs::current_path().parent_path());
+		fs::path path = fs::current_path().parent_path();
 		return path.string();
 	}
 
@@ -47,7 +46,7 @@ namespace file
 	*/
 	std::string getMainDirectoryFileStr(fs::path subpath)
 	{
-		fs::path path = *(&fs::current_path().parent_path()) /= subpath;
+		fs::path path = fs::current_path().parent_path() /= subpath;
 
 		return path.string();
 	}

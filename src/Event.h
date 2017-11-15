@@ -93,7 +93,7 @@ namespace evnt
 		EventBus *m_eventBus;
 
 		/* node event listener
-		* param event the event which fired the function
+		* param event the event which caused the function to fire
 		*/
 		virtual void eventFired(Event* event)
 		{
@@ -104,7 +104,8 @@ namespace evnt
 		*/
 		std::function<void(Event*)> getEventListener()
 		{
-			auto eventListener = [=](Event* event) -> void {
+			auto eventListener = [=](Event* event) -> void
+			{
 				this->eventFired(event);
 			};
 

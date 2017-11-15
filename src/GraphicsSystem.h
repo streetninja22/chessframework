@@ -6,10 +6,9 @@
 #include "System.h"
 #include "Exception.h"
 #include "graphicsenum.h"
-#include <experimental/filesystem>
-#include <SDL_image.h>
+#include <boost/filesystem.hpp>
 
-namespace fs = std::experimental::filesystem;
+namespace fs = boost::filesystem;
 
 namespace gfx {
 	//TODO exceptions

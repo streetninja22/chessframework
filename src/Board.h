@@ -1,11 +1,12 @@
 #pragma once
 #include <array>
 #include "Piece.h"
+#include "Chess.h"
 
 namespace chess
 {
-    
-    class Board
+
+    class Board //board is declared in Piece.h. Why? Fucking magic, that's why.
     {
         std::array<std::array<Piece, 8>, 8> m_board;
         int m_xSize;
@@ -99,5 +100,4 @@ namespace chess
          */
         bool lineOfSight(int oldX, int oldY, int newX, int newY) const;
     };
-    
 }

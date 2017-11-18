@@ -1,11 +1,10 @@
 #pragma once
 #include "Team.h"
 
-
-class Board;
-
 namespace chess
 {
+    
+    class Board;
     
     enum class PieceType
     {

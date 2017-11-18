@@ -1,7 +1,8 @@
+#include <cstdlib> //needed for abs() on some compilers
+
 #include "Piece.h"
 #include "PieceTypes.h"
 #include "Board.h"
-#include <cstdlib> //needed for abs() on some compilers
 
 
 

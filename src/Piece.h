@@ -1,6 +1,7 @@
 #pragma once
 #include "Team.h"
 
+
 class Board;
 
 namespace chess
@@ -43,6 +44,14 @@ namespace chess
             return false;
         }
         
+        bool isAlly(const Piece& piece) const
+        {
+            if (piece.getTeam() == m_team)
+                return true;
+            return false;
+        }
+        
+        bool isNoAllyAt(const Board& board, int posX, int posY) const;
     };
     
     

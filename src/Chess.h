@@ -27,9 +27,12 @@ namespace chess
 
 	class ChessGame : public evnt::EventNode
 	{
-		Board m_board;
-		Pos selectionPos; //the position of the selection
-		bool selected; //whether anything is selected in the first place
+		Board* m_board;
+		Pos m_selectionPos; //the position of the selection
+		bool m_selected; //whether anything is selected in the first place
+        
+        Team m_white;
+        Team m_black;
 
 		std::queue<ChessGameEvent> inputEventQueue; //event queue, not to be confused with an actual event bus queue
 
@@ -42,11 +45,19 @@ namespace chess
 		}
 
 	public:
+        ChessGame(evnt::EventBus* bus);
 
-		void update()
-		{
-			
-		}
+        void update();
+        
+        const Board& getBoard() const
+        {
+            return *m_board;
+        }
+        
+        void addGameEvent(ChessGameEvent event)
+        {
+            inputEventQueue.push(event);
+        }
 
 	};
 

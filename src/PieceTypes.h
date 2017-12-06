@@ -62,7 +62,7 @@ namespace chess
     class Queen : public Piece
     {
     public:
-        Queen(Team* team) : Piece(PieceType::KING, team)
+        Queen(Team* team) : Piece(PieceType::QUEEN, team)
         {
         }
         

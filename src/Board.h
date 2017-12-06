@@ -1,5 +1,5 @@
 #pragma once
-#include <array>
+#include <vector>
 #include "Piece.h"
 #include "Chess.h"
 
@@ -8,15 +8,20 @@ namespace chess
 
     class Board //board is declared in Piece.h. Why? Fucking magic, that's why.
     {
-        std::array<std::array<Piece, 8>, 8> m_board;
+        std::vector<std::vector<Piece>> m_board;
         int m_xSize;
         int m_ySize;
         
     public:
-        Board() : m_xSize(8), m_ySize(8)
-        {
-            
-        }
+        Board(unsigned int xSize, unsigned int ySize);
+        
+        
+        /* Creates a standard chess board
+         *
+         * @param white The pointer of the team representing white
+         * @param black The pointer of the team representing black
+         */
+        Board(Team* white, Team* black);
         
         ~Board()
         {

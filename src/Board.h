@@ -5,14 +5,26 @@
 
 namespace chess
 {
+	typedef std::vector<std::vector<Piece*>> t_BoardArray;
 
     class Board //board is declared in Piece.h. Why? Fucking magic, that's why.
     {
-        std::vector<std::vector<Piece>> m_board;
+        t_BoardArray m_board;
         int m_xSize;
         int m_ySize;
-        
+		
+		void initializeBoard();
+		
+		
+		Piece* getPointer(int x, int y)
+		{
+			if (isPositionLegal(x, y))
+				return m_board.at(x).at(y);
+		}
+		
+		
     public:
+		
         Board(unsigned int xSize, unsigned int ySize);
         
         
@@ -30,7 +42,17 @@ namespace chess
         
         int xSize() const { return m_xSize; }
         int ySize() const { return m_ySize; }
-        
+		
+		bool isPositionLegal(int x, int y) const
+		{
+			if (x >= 0 && y >= 0)
+			{
+				if (x < m_xSize && m_ySize)
+					return true;
+			}
+			return false;
+		}
+		
         /* Returns the piece at the given position
          *
          * @param x The X position
@@ -38,8 +60,8 @@ namespace chess
          */
         Piece& getPiece(int x, int y)
         {
-            if (x < m_xSize && y < m_ySize)
-                return m_board.at(x).at(y);
+            if (isPositionLegal(x, y))
+                return *m_board.at(x).at(y);
         }
         
         /* Returns the piece at the given position
@@ -49,10 +71,10 @@ namespace chess
          */
         const Piece& getPiece(int x, int y) const
         {
-            if (x < m_xSize && y < m_ySize)
-                return m_board.at(x).at(y);
+            if (isPositionLegal(x, y))
+                return *m_board.at(x).at(y);
         }
-        
+		
         /* Sets the position to the given piece
          *
          * @param x The X position to set
@@ -61,7 +83,7 @@ namespace chess
          */
         void setPiece(int x, int y, Piece piece)
         {
-            if (x < m_xSize && y < m_ySize)
+            if (isPositionLegal(x, y))
                 getPiece(x, y) = piece;
         }
         
@@ -81,7 +103,7 @@ namespace chess
          */
         bool isLivingPieceAt(int x, int y) const
         {
-            if (x < m_xSize && y < m_ySize)
+            if (isPositionLegal(x, y))
                 return getPiece(x, y).getTeam() != nullptr ? true : false;
         }
         
@@ -92,7 +114,7 @@ namespace chess
          */
         const Team* getTeamAt(int x, int y) const
         {
-            if (x < m_xSize && y < m_ySize)
+            if (isPositionLegal(x, y))
                 return getPiece(x, y).getTeam();
         }
         
@@ -104,5 +126,6 @@ namespace chess
          * @param newY The second Y position
          */
         bool lineOfSight(int oldX, int oldY, int newX, int newY) const;
+		
     };
 }

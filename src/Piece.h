@@ -1,5 +1,6 @@
 #pragma once
 #include "Team.h"
+#include <iostream>
 
 namespace chess
 {
@@ -40,6 +41,7 @@ namespace chess
         
         virtual bool isMoveLegal(const Board& board, int xOrigin, int yOrigin, int xNew, int yNew)
         {
+            std::cout << "Attempting to move blank piece\n";
             return false;
         }
         

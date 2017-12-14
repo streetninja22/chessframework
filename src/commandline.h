@@ -103,5 +103,9 @@ namespace chess
 			
 			game.addGameEvent({ChessGameEventType::MOVE_PIECE, {static_cast<unsigned int>(x), static_cast<unsigned int>(y)}});
 		}
+        else
+        {
+            std::cout << "Invalid command\n";
+        }
 	}
 }

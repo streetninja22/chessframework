@@ -3,6 +3,17 @@
 
 namespace chess
 {
+    void Board::initializeBoard()
+    {
+        for (int indexX = 0; indexX < m_board.size(); ++indexX)
+        {
+            for (int indexY = 0; indexY < m_board.size(); ++indexY)
+            {
+                m_board.at(indexX).at(indexY) = new Piece();
+            }
+        }
+    }
+    
 	Board::Board(unsigned int xSize, unsigned int ySize) : m_xSize(xSize), m_ySize(ySize)
     {
 		m_board.resize(xSize);
@@ -48,12 +59,19 @@ namespace chess
 
 	void Board::movePiece(int xOrigin, int yOrigin, int xNew, int yNew)
 	{
-		getPiece(xNew, yNew) = getPiece(xOrigin, yOrigin);
-		getPiece(xOrigin, yOrigin) = Piece();
+        if (isPositionLegal(xOrigin, yOrigin) && isPositionLegal(xNew, yNew))
+        {
+            getPiece(xNew, yNew) = getPiece(xOrigin, yOrigin);
+            getPiece(xOrigin, yOrigin) = Piece();
+        }
 	}
 
 	bool Board::lineOfSight(int oldX, int oldY, int newX, int newY) const
 	{
+        if (!(isPositionLegal(oldX, oldY) && isPositionLegal(newX, newY)))
+        {
+            return false;
+        }
 		int deltaX = newX - oldX;
 		int deltaY = newY - oldY;
 

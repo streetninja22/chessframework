@@ -34,7 +34,7 @@ namespace chess
         Team m_white;
         Team m_black;
 
-		std::queue<ChessGameEvent> inputEventQueue; //event queue, not to be confused with an actual event bus queue
+		std::queue<ChessGameEvent> m_inputEventQueue; //event queue, not to be confused with an actual event bus queue
 
 
 		void eventFired(evnt::Event* event)
@@ -49,15 +49,19 @@ namespace chess
 
         void update();
         
-        const Board& getBoard() const
+		const Board& getBoard() const
         {
             return *m_board;
         }
         
         void addGameEvent(ChessGameEvent event)
         {
-            inputEventQueue.push(event);
+            m_inputEventQueue.push(event);
         }
+        
+        void interpretEvent(ChessGameEvent event);
+		
+		void movePiece(Pos origin, Pos dest);
 
 	};
 

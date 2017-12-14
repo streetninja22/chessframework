@@ -15,7 +15,7 @@ namespace chess
         {
         }
         
-       virtual bool isMoveLegal(const Board& board, int xOrigin, int yOrigin, int xNew, int yNew);
+       virtual bool isMoveLegal(const Board& board, int xOrigin, int yOrigin, int xNew, int yNew) override;
         
     };
     
@@ -26,7 +26,7 @@ namespace chess
         {
         }
         
-        virtual bool isMoveLegal(const Board& board, int xOrigin, int yOrigin, int xNew, int yNew);
+        virtual bool isMoveLegal(const Board& board, int xOrigin, int yOrigin, int xNew, int yNew) override;
     };
     
     class Knight : public Piece
@@ -36,7 +36,7 @@ namespace chess
         {
         }
         
-        bool isMoveLegal(const Board& board, int xOrigin, int yOrigin, int xNew, int yNew);
+        bool isMoveLegal(const Board& board, int xOrigin, int yOrigin, int xNew, int yNew) override;
     };
     
     class Bishop : public Piece
@@ -46,7 +46,7 @@ namespace chess
         {
         }
         
-        bool isMoveLegal(const Board& board, int xOrigin, int yOrigin, int xNew, int yNew);
+        bool isMoveLegal(const Board& board, int xOrigin, int yOrigin, int xNew, int yNew) override;
     };
     
     class King : public Piece
@@ -56,7 +56,7 @@ namespace chess
         {
         }
         
-        bool isMoveLegal(const Board& board, int xOrigin, int yOrigin, int xNew, int yNew);
+        bool isMoveLegal(const Board& board, int xOrigin, int yOrigin, int xNew, int yNew) override;
     };
     
     class Queen : public Piece
@@ -66,7 +66,7 @@ namespace chess
         {
         }
         
-        bool isMoveLegal(const Board& board, int xOrigin, int yOrigin, int xNew, int yNew);
+        bool isMoveLegal(const Board& board, int xOrigin, int yOrigin, int xNew, int yNew) override;
     };
 
     

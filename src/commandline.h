@@ -104,7 +104,6 @@ namespace chess
 			
 			game.addGameEvent({ChessGameEventType::MOVE_PIECE, {static_cast<unsigned int>(x), static_cast<unsigned int>(y)}});
 		}
-<<<<<<< HEAD
         else if (command == "whatteam")
         {
             int x = takeIntInput();
@@ -112,8 +111,6 @@ namespace chess
             
             std::cout << game.getBoard().getPiece(x, y).getTeamName() << '\n';
         }
-=======
->>>>>>> 416c551469067ed41fa4f6ef3404cdb27c77a171
         else
         {
             std::cout << "Invalid command\n";

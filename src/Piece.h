@@ -49,11 +49,7 @@ namespace chess
         
         virtual bool isMoveLegal(const Board& board, int xOrigin, int yOrigin, int xNew, int yNew)
         {
-<<<<<<< HEAD
             std::cout << "Attempting to move blank piece: " << static_cast<int>(getType()) << "\n";
-=======
-            std::cout << "Attempting to move blank piece\n";
->>>>>>> 416c551469067ed41fa4f6ef3404cdb27c77a171
             return false;
         }
         

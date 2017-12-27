@@ -62,7 +62,6 @@ namespace chess
         
         void interpretEvent(ChessGameEvent event);
 		
-<<<<<<< HEAD
 		bool movePiece(Pos origin, Pos dest);
 		
 		void endTurn();
@@ -73,9 +72,6 @@ namespace chess
 				return m_currentTeam->getName();
 			return "No team";
 		}
-=======
-		void movePiece(Pos origin, Pos dest);
->>>>>>> 416c551469067ed41fa4f6ef3404cdb27c77a171
 
 	};
 

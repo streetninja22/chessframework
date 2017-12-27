@@ -88,6 +88,7 @@ namespace chess
 		{
 			game.update();
 			outputBoard(game.getBoard(), std::cout);
+            std::cout << "It is currently " << game.getCurrentTeamName() << "'s turn\n";
 		}
 		else if(command == "setpiece")
 		{
@@ -103,5 +104,16 @@ namespace chess
 			
 			game.addGameEvent({ChessGameEventType::MOVE_PIECE, {static_cast<unsigned int>(x), static_cast<unsigned int>(y)}});
 		}
+        else if (command == "whatteam")
+        {
+            int x = takeIntInput();
+            int y = takeIntInput();
+            
+            std::cout << game.getBoard().getPiece(x, y).getTeamName() << '\n';
+        }
+        else
+        {
+            std::cout << "Invalid command\n";
+        }
 	}
 }

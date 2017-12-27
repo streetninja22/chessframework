@@ -30,11 +30,12 @@ namespace chess
 		Board* m_board;
 		Pos m_selectionPos; //the position of the selection
 		bool m_selected; //whether anything is selected in the first place
-        
+		
+		Team* m_currentTeam;
         Team m_white;
         Team m_black;
 
-		std::queue<ChessGameEvent> inputEventQueue; //event queue, not to be confused with an actual event bus queue
+		std::queue<ChessGameEvent> m_inputEventQueue; //event queue, not to be confused with an actual event bus queue
 
 
 		void eventFired(evnt::Event* event)
@@ -49,15 +50,28 @@ namespace chess
 
         void update();
         
-        const Board& getBoard() const
+		const Board& getBoard() const
         {
             return *m_board;
         }
         
         void addGameEvent(ChessGameEvent event)
         {
-            inputEventQueue.push(event);
+            m_inputEventQueue.push(event);
         }
+        
+        void interpretEvent(ChessGameEvent event);
+		
+		bool movePiece(Pos origin, Pos dest);
+		
+		void endTurn();
+		
+		std::string getCurrentTeamName()
+		{
+			if (m_currentTeam != nullptr)
+				return m_currentTeam->getName();
+			return "No team";
+		}
 
 	};
 

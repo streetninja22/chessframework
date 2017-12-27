@@ -10,7 +10,7 @@ public:
 	{
 	}
 
-	std::string getName()
+	std::string getName() const
 	{
 		return m_teamName;
 	}

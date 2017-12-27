@@ -1,5 +1,6 @@
 #pragma once
 #include "Team.h"
+#include <iostream>
 
 namespace chess
 {
@@ -38,8 +39,17 @@ namespace chess
         
         const Team* getTeam() const { return m_team; }
         
+        std::string getTeamName() const
+        {
+            if (m_team != nullptr)
+                return m_team->getName();
+            else
+                return "None";
+        }
+        
         virtual bool isMoveLegal(const Board& board, int xOrigin, int yOrigin, int xNew, int yNew)
         {
+            std::cout << "Attempting to move blank piece: " << static_cast<int>(getType()) << "\n";
             return false;
         }
         
@@ -51,6 +61,8 @@ namespace chess
         }
         
         bool isNoAllyAt(const Board& board, int posX, int posY) const;
+        
+        bool IsEnemyAt(const Board& board, int posX, int posY) const;
     };
     
     

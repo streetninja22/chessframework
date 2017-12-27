@@ -15,35 +15,50 @@ namespace chess
         return true;
     }
     
+    bool Piece::IsEnemyAt(const Board& board, int posX, int posY) const
+    {
+        if (!isAlly(board.getPiece(posX, posY)))
+        {
+            if (board.getPiece(posX, posY).getType() != PieceType::NONE)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    
     bool Pawn::isMoveLegal(const Board& board, int xOrigin, int yOrigin, int xNew, int yNew)
     {
         int deltaX = xNew - xOrigin;
         int deltaY = yNew - yOrigin;
         
-        if (deltaX == 1 || deltaX == -1)
+        
+        if ((deltaY == 1 && m_movePositive) || (deltaY == -1 && !m_movePositive))
         {
-            if (deltaY == 1)
+            if (deltaX == 1 || deltaX == -1)
             {
-                if (isNoAllyAt(board, xNew, yNew))
-                    return true;
+                if (deltaY == 1)
+                {
+                    if (IsEnemyAt(board, xNew, yNew))
+                        return true;
+                }
             }
-        }
-        else if (deltaX == 0)
-        {
-            if (deltaY == 1)
+            else if (deltaX == 0)
             {
                 if (!(board.isLivingPieceAt(xNew, yNew)))
-				{
-					return true;
-				}
+                {
+                    return true;
+                }
 			}
-			else if (deltaY == 2 && m_hasMoved == false)
+        }
+		else if (deltaY == 2 && m_hasMoved == false)
+			if (deltaX == 0)
 				if (!(board.isLivingPieceAt(xOrigin, yOrigin + 1)))
 					return true;
-		}
-					return false;
+
+        return false;
 	}
-                        
+	
                         
 	bool Rook::isMoveLegal(const Board& board, int xOrigin, int yOrigin, int xNew, int yNew)
 	{

@@ -3,57 +3,82 @@
 
 namespace chess
 {
+    void Board::resize(int xSize, int ySize)
+    {
+        m_board.resize(xSize);
+        for (int indexX = 0; indexX < xSize; ++indexX)
+        {
+            m_board.at(indexX).resize(ySize);
+        }
+    }
+	
+	void Board::initializeBoard()
+	{
+		for (int indexX = 0; indexX < xSize(); ++indexX)
+		{
+			for (int indexY = 0; indexY < ySize(); ++indexY)
+			{
+				setPiece(indexX, indexY, new Piece());
+			}
+		}
+	}
+    
 	Board::Board(unsigned int xSize, unsigned int ySize) : m_xSize(xSize), m_ySize(ySize)
     {
-		m_board.resize(xSize);
-		
-		for (int index = 0; index < xSize; ++index)
-		{
-			m_board.at(index).resize(ySize);
-		}
+        resize(xSize, ySize);
+		initializeBoard();
     }
 	
 	Board::Board(Team* white, Team* black) : Board(8, 8)
 	{
 		for (int index = 0; index < m_xSize; ++index)
 		{
-			getPiece(index, 1) = Pawn(white);
-			getPiece(index, m_xSize - 2) = Pawn(black);
+			setPiece(index, 1, new Pawn(white, true));
+			setPiece(index, m_xSize - 2, new Pawn(black, false));
 		}
 		
-		setPiece(0, 0, Rook(white));
-		setPiece(7, 0, Rook(white));
+		setPiece(0, 0, new Rook(white));
+		setPiece(7, 0, new Rook(white));
 		
-		setPiece(0, 7, Rook(black));
-		setPiece(7, 7, Rook(black));
+		setPiece(0, 7, new Rook(black));
+		setPiece(7, 7, new Rook(black));
 		
-		setPiece(1, 0, Knight(white));
-		setPiece(6, 0, Knight(white));
+		setPiece(1, 0, new Knight(white));
+		setPiece(6, 0, new Knight(white));
 		
-		setPiece(1, 7, Knight(black));
-		setPiece(6, 7, Knight(black));
+		setPiece(1, 7, new Knight(black));
+		setPiece(6, 7, new Knight(black));
 		
-		setPiece(2, 0, Bishop(white));
-		setPiece(5, 0, Bishop(white));
+		setPiece(2, 0, new Bishop(white));
+		setPiece(5, 0, new Bishop(white));
 		
-		setPiece(2, 7, Bishop(black));
-		setPiece(5, 7, Bishop(black));
+		setPiece(2, 7, new Bishop(black));
+		setPiece(5, 7, new Bishop(black));
 		
-		setPiece(3, 0, Queen(white));
-		setPiece(3, 7, Queen(black));
+		setPiece(3, 0, new Queen(white));
+		setPiece(3, 7, new Queen(black));
 		
-		setPiece(4, 0, King(white));
-		setPiece(4, 7, King(black));
+		setPiece(4, 0, new King(white));
+		setPiece(4, 7, new King(black));
+
 	}
 
 	void Board::movePiece(int xOrigin, int yOrigin, int xNew, int yNew)
 	{
-		getPiece(xNew, yNew) = getPiece(xOrigin, yOrigin);
-		getPiece(xOrigin, yOrigin) = Piece();
+        if (isPositionLegal(xOrigin, yOrigin) && isPositionLegal(xNew, yNew))
+        {
+			delete getPointer(xNew, yNew);
+			getPointerReference(xNew, yNew) = getPointer(xOrigin, yOrigin);
+			getPointerReference(xOrigin, yOrigin) = new Piece();
+        }
 	}
 
 	bool Board::lineOfSight(int oldX, int oldY, int newX, int newY) const
 	{
+		if (!(isPositionLegal(oldX, oldY) && isPositionLegal(newX, newY)))
+        {
+            return false;
+        }
 		int deltaX = newX - oldX;
 		int deltaY = newY - oldY;
 
@@ -92,5 +117,10 @@ namespace chess
 
 		return false;
 	}
+    
+    bool Board::isMoveLegal(int xOrigin, int yOrigin, int xNew, int yNew)
+    {
+        return getPointer(xOrigin, yOrigin)->isMoveLegal(*this, xOrigin, yOrigin, xNew, yNew);
+    }
 
 }

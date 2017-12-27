@@ -15,6 +15,7 @@ namespace chess
 		
 		void initializeBoard();
 		
+<<<<<<< HEAD
 		/* Returns the pointer of the piece at the given position
 		 *
 		 * @param x the X position
@@ -27,14 +28,21 @@ namespace chess
 		}
 		
 		Piece*& getPointerReference(int x, int y)
+=======
+		
+		Piece* getPointer(int x, int y)
+>>>>>>> 416c551469067ed41fa4f6ef3404cdb27c77a171
 		{
 			if (isPositionLegal(x, y))
 				return m_board.at(x).at(y);
 		}
 		
 		
+<<<<<<< HEAD
 		void resize(int xSize, int ySize);
 		
+=======
+>>>>>>> 416c551469067ed41fa4f6ef3404cdb27c77a171
     public:
 		
         Board(unsigned int xSize, unsigned int ySize);
@@ -96,10 +104,14 @@ namespace chess
         void setPiece(int x, int y, Piece* piece)
         {
             if (isPositionLegal(x, y))
+<<<<<<< HEAD
 			{
 				delete getPointerReference(x, y);
 				getPointerReference(x, y) = piece;
 			}
+=======
+                getPiece(x, y) = piece;
+>>>>>>> 416c551469067ed41fa4f6ef3404cdb27c77a171
         }
         
         /* Moves the data of a piece from the origin to the new position
@@ -142,7 +154,10 @@ namespace chess
          */
         bool lineOfSight(int oldX, int oldY, int newX, int newY) const;
 		
+<<<<<<< HEAD
 		bool isMoveLegal(int xOrigin, int yOrigin, int xNew, int yNew);
 		
+=======
+>>>>>>> 416c551469067ed41fa4f6ef3404cdb27c77a171
     };
 }

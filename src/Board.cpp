@@ -3,7 +3,22 @@
 
 namespace chess
 {
+<<<<<<< HEAD
     void Board::resize(int xSize, int ySize)
+=======
+    void Board::initializeBoard()
+    {
+        for (int indexX = 0; indexX < m_board.size(); ++indexX)
+        {
+            for (int indexY = 0; indexY < m_board.size(); ++indexY)
+            {
+                m_board.at(indexX).at(indexY) = new Piece();
+            }
+        }
+    }
+    
+	Board::Board(unsigned int xSize, unsigned int ySize) : m_xSize(xSize), m_ySize(ySize)
+>>>>>>> 416c551469067ed41fa4f6ef3404cdb27c77a171
     {
         m_board.resize(xSize);
         for (int indexX = 0; indexX < xSize; ++indexX)
@@ -67,15 +82,24 @@ namespace chess
 	{
         if (isPositionLegal(xOrigin, yOrigin) && isPositionLegal(xNew, yNew))
         {
+<<<<<<< HEAD
 			delete getPointer(xNew, yNew);
 			getPointerReference(xNew, yNew) = getPointer(xOrigin, yOrigin);
 			getPointerReference(xOrigin, yOrigin) = new Piece();
+=======
+            getPiece(xNew, yNew) = getPiece(xOrigin, yOrigin);
+            getPiece(xOrigin, yOrigin) = Piece();
+>>>>>>> 416c551469067ed41fa4f6ef3404cdb27c77a171
         }
 	}
 
 	bool Board::lineOfSight(int oldX, int oldY, int newX, int newY) const
 	{
+<<<<<<< HEAD
 		if (!(isPositionLegal(oldX, oldY) && isPositionLegal(newX, newY)))
+=======
+        if (!(isPositionLegal(oldX, oldY) && isPositionLegal(newX, newY)))
+>>>>>>> 416c551469067ed41fa4f6ef3404cdb27c77a171
         {
             return false;
         }

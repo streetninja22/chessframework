@@ -8,7 +8,10 @@ namespace gfx
 	enum class GraphicsEventType
 	{
 		DEFAULT,
-		RENDERIMAGE,
+		RENDER_IMAGE,
+		RENDER_DRAW_RECT,
+		RENDER_FILL_RECT,
+		LOAD_TEXTURE,
 	};
 
 }

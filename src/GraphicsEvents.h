@@ -9,10 +9,19 @@ namespace gfx
 	
 	class LoadTextureEvent : public GraphicsEvent
 	{
+		std::string m_filepath;
+		Texture* m_finalTexture;
 		
+	public:
+		LoadTextureEvent(std::string filepath) : m_filepath(filepath), m_finalTexture(new Texture)
+		{
+			
+		}
 		
+		std::string getFilepath() { return m_filepath; }
+		Texture*& getTexture() { return m_finalTexture; }
 		
-		virtual GraphicsEventType getGraphicsEventType() { return GraphicsEventType::DEFAULT; }
+		virtual GraphicsEventType getGraphicsEventType() { return GraphicsEventType::LOAD_TEXTURE; }
 	};
 
 	//An event which calls for the Graphics System to render an image
@@ -49,33 +58,32 @@ namespace gfx
 
 	class RenderDrawRectEvent : public RenderEvent
 	{
-		Rect* m_rect;
+		Rect m_rect;
 		Color m_color;
 		
 	public:
 		
 		/* Creates a RenderRectEvent
-			*
-			* @param rect The rectangle object which stores the size and position of the rect to draw
-			* @param color The color to draw the rectangle in
-			*/
-		RenderDrawRectEvent(Rect* rect, Color color) : m_rect(rect), m_color(color)
+		*
+		* @param rect The rectangle object which stores the size and position of the rect to draw
+		* @param color The color to draw the rectangle in
+		*/
+		RenderDrawRectEvent(Rect rect, Color color) : m_rect(rect), m_color(color)
 		{
 		}
 		
 		~RenderDrawRectEvent()
 		{
-			delete m_rect;
 		}
 		
-		Rect* getRect() { return m_rect; } //nerf this scrubs
+		Rect& getRect() { return m_rect; } //nerf this scrubs
 		Color getColor() { return m_color; }
 		virtual GraphicsEventType getGraphicsEventType() override { return GraphicsEventType::RENDER_DRAW_RECT; }
 	};
 
 	class RenderFillRectEvent : public RenderEvent
 	{
-		Rect* m_rect;
+		Rect m_rect;
 		Color m_color;
 		
 	public:
@@ -85,16 +93,15 @@ namespace gfx
 		 * @param rect The rectangle object which stores the size and position of the rect to draw
 		 * @param color The color to draw the rectangle in
 		 */
-		RenderFillRectEvent(Rect* rect, Color color) : m_rect(rect), m_color(color)
+		RenderFillRectEvent(Rect rect, Color color) : m_rect(rect), m_color(color)
 		{
 		}
 		
 		~RenderFillRectEvent()
 		{
-			delete m_rect;
 		}
 		
-		Rect* getRect() { return m_rect; } //nerf this scrubs
+		Rect& getRect() { return m_rect; } //nerf this scrubs
 		Color getColor() { return m_color; }
 		virtual GraphicsEventType getGraphicsEventType() override { return GraphicsEventType::RENDER_FILL_RECT; }
 	};

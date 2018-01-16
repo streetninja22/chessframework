@@ -1,4 +1,5 @@
 #include "GraphicsSystem.h"
+#include "GraphicsEvents.h"
 #include "SDLUtility.h"
 #include "cleanup.h"
 
@@ -21,7 +22,7 @@ namespace gfx
 	SDL_Rect* SDLRectFromRect(Rect* r2)
 	{
 		SDL_Rect* r1 = new SDL_Rect();
-		if (r1 == NULL || r2 == NULL)
+		if (r2 == NULL)
 			return NULL;
 
 		r1->x = r2->x;
@@ -70,15 +71,47 @@ namespace gfx
 		if (evnt->getEventType() == evnt::EventType::GRAPHICS)
 		{
 			GraphicsEvent* graphicsEvent = dynamic_cast<GraphicsEvent*>(evnt);
-
+			
+			//TODO break up into functions
 			switch (graphicsEvent->getGraphicsEventType())
 			{
-			case GraphicsEventType::RENDERIMAGE:
-				RenderImageEvent* graphicsEvent = dynamic_cast<RenderImageEvent*>(evnt);
+			case GraphicsEventType::RENDER_IMAGE:
+				{
+					RenderImageEvent* graphicsEvent = dynamic_cast<RenderImageEvent*>(evnt);
 
-				renderTexture(graphicsEvent->getTexture(), graphicsEvent->getSrcRect(), graphicsEvent->getDstRect());
-				delete evnt;
-				break;
+					renderTexture(graphicsEvent->getTexture(), graphicsEvent->getSrcRect(), graphicsEvent->getDstRect());
+					delete graphicsEvent;
+					break;
+				}
+					
+			case GraphicsEventType::RENDER_DRAW_RECT:
+				{
+					RenderDrawRectEvent* graphicsEvent = dynamic_cast<RenderDrawRectEvent*>(evnt);
+					
+					renderDrawRect(&graphicsEvent->getRect(), graphicsEvent->getColor());
+					delete graphicsEvent;
+					break;
+				}
+					
+			case GraphicsEventType::RENDER_FILL_RECT:
+				{
+					RenderDrawRectEvent* graphicsEvent = dynamic_cast<RenderDrawRectEvent*>(evnt);
+					
+					renderFillRect(&graphicsEvent->getRect(), graphicsEvent->getColor());
+					delete graphicsEvent;
+					break;
+				}
+					
+			case GraphicsEventType::LOAD_TEXTURE:
+				{
+					LoadTextureEvent* loadEvent = dynamic_cast<LoadTextureEvent*>(evnt);
+					
+					*loadEvent->getTexture() = *loadTexture(loadEvent->getFilepath());
+					
+					delete loadEvent;
+					break;
+				}
+					
 			}
 
 		}
@@ -175,6 +208,16 @@ namespace gfx
 		setRenderDrawColor(m_defaultRenderColor);
 		delete rect;
 	}
+	
+	void GraphicsSystem::renderDrawRect(Rect* rect, Color color)
+	{
+		setRenderDrawColor(color);
+		SDL_Rect* newRect = SDLRectFromRect(rect);
+		
+		SDL_RenderDrawRect(m_renderer, newRect);
+		setRenderDrawColor(m_defaultRenderColor);
+		delete rect;
+	}
 
 	void GraphicsSystem::renderFillRect(int x, int y, int w, int h, Color color)
 	{
@@ -190,13 +233,23 @@ namespace gfx
 		setRenderDrawColor(m_defaultRenderColor);
 		delete rect;
 	}
-
-
-	Texture GraphicsSystem::loadTexture(std::string file)
+	
+	void GraphicsSystem::renderFillRect(Rect* rect, Color color)
 	{
-		Texture returnTexture;
+		setRenderDrawColor(color);
+		SDL_Rect* newRect = SDLRectFromRect(rect);
+		
+		SDL_RenderFillRect(m_renderer, newRect);
+		setRenderDrawColor(m_defaultRenderColor);
+		delete rect;
+	}
+
+
+	Texture* GraphicsSystem::loadTexture(std::string file)
+	{
+		Texture* returnTexture = new Texture();
 		SDL_Texture* texture = IMG_LoadTexture(m_renderer, file.c_str());
-		returnTexture.setTexture(texture);
+		returnTexture->setTexture(texture);
 
 		return returnTexture;
 	}

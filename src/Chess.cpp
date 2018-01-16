@@ -4,7 +4,7 @@
 namespace chess
 {
 
-    ChessGame::ChessGame(evnt::EventBus* bus) : m_white("White"), m_black("Black"), m_currentTeam(&m_white), m_board(new Board(&m_white, &m_black)), m_selected(false), evnt::EventNode(bus)
+    ChessGame::ChessGame(evnt::EventBus* bus) : m_white("White"), m_black("Black"), m_currentTeam(&m_white), m_board(new Board(&m_white, &m_black)), m_selected(false)
     {
     }
 	
@@ -25,7 +25,6 @@ namespace chess
 			m_currentTeam = &m_black;
 		else
 			m_currentTeam = &m_white;
-		m_selected = false;
 	}
 	
     void ChessGame::interpretEvent(ChessGameEvent event)
@@ -35,11 +34,13 @@ namespace chess
             case (ChessGameEventType::SET_SELECTION):
 				if (m_board->isPositionLegal(event.position.x, event.position.y))
 				{
-					if (m_board->getPiece(event.position.x, event.position.y).getTeam() == m_currentTeam)
+					Piece* piece = &m_board->getPiece(event.position.x, event.position.y);
+					if (piece->isNotBlank() && piece->getTeam() == m_currentTeam)
 					{
 						m_selected = true;
 						m_selectionPos = event.position;
 					}
+					m_selected = false;
 				}
                 break;
             case (ChessGameEventType::MOVE_PIECE):

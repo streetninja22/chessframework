@@ -63,6 +63,15 @@ namespace chess
         bool isNoAllyAt(const Board& board, int posX, int posY) const;
         
         bool IsEnemyAt(const Board& board, int posX, int posY) const;
+		
+		bool isNotBlank()
+		{
+			if (m_type == PieceType::NONE)
+			{
+				return false;
+			}
+			return true;
+		}
     };
     
     

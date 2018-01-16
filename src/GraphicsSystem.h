@@ -107,6 +107,8 @@ namespace gfx {
 		virtual GraphicsEventType getGraphicsEventType() { return GraphicsEventType::DEFAULT; }
 
 	};
+	
+	//TODO: Move the render events to another file
 
 	//An event which calls for the GraphicsSystem to render an object
 	class RenderEvent : public GraphicsEvent
@@ -137,40 +139,6 @@ namespace gfx {
 		Rect* getDstRect() { return m_dstrect; }
 	};
 
-	//An event which calls for the Graphics System to render an image
-	class RenderImageEvent : public RenderEvent
-	{
-		Texture m_texture;
-		Rect* m_srcRect;
-
-	public:
-		RenderImageEvent()
-		{
-
-		}
-
-		/* Creates a RenderImageEvent
-		*
-		* @param texture the Texture to render
-		* @param srcRect The source rectangle which determines what part of the texture will be rendered
-		* @param dstRect The destination rectangle, which determins where on the screen the texture will be rendered
-		*/
-		RenderImageEvent(Texture texture, Rect* srcRect, Rect* dstRect) : m_texture(texture), m_srcRect(srcRect), RenderEvent(dstRect)
-		{
-		}
-
-		~RenderImageEvent()
-		{
-			delete m_srcRect;
-		}
-
-		Rect* getSrcRect() { return m_srcRect; }
-		Texture getTexture() { return m_texture; }
-		virtual GraphicsEventType getGraphicsEventType() override { return GraphicsEventType::RENDERIMAGE; }
-	};
-
-
-	//TODO write graphics system
 
 	class GraphicsSystem : public System
 	{
@@ -224,6 +192,12 @@ namespace gfx {
 		* @param color The color of the rectangle
 		*/
 		void renderDrawRect(int x, int y, int w, int h, Color color);
+		
+		/* Draws an unfilled rectangle on the screen of the specified color
+		* @param rect The rectangle to draw at
+		* @param color The color to draw the rect in
+		*/
+		void renderDrawRect(Rect* rect, Color color);
 
 
 		/* Draws an filled rectangle on the screen of the specified color
@@ -235,6 +209,12 @@ namespace gfx {
 		* @param color The color of the rectangle
 		*/
 		void renderFillRect(int x, int y, int w, int h, Color color);
+		
+		/* Draws a fille drectangle on the screen of the specified color
+		* @param rect The rect to draw at
+		* @param color The color to draw in
+		*/
+		void renderFillRect(Rect* rect, Color color);
 
 		/* Sets the default color to render objects
 		*
@@ -247,7 +227,7 @@ namespace gfx {
 		*
 		* @param file The filepath of the image
 		*/
-		Texture loadTexture(std::string filepath);
+		Texture* loadTexture(std::string filepath);
 
 
 		/* Renders the supplied texture at the given position and size

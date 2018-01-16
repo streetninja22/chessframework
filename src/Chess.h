@@ -25,7 +25,7 @@ namespace chess
 		Pos position;
 	};
 
-	class ChessGame : public evnt::EventNode
+	class ChessGame
 	{
 		Board* m_board;
 		Pos m_selectionPos; //the position of the selection
@@ -72,6 +72,8 @@ namespace chess
 				return m_currentTeam->getName();
 			return "No team";
 		}
+		
+		bool isSelection() { return m_selected; }
 
 	};
 
